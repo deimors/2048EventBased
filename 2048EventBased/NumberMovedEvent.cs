@@ -39,5 +39,8 @@ namespace _2048EventBased
 				return hashCode;
 			}
 		}
+
+		public override string ToString()
+			=> $"NumberMoved {Number} @ {Origin} -> {Target}";
 	}
 }

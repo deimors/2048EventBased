@@ -30,6 +30,9 @@ namespace _2048EventBased
 			}
 		}
 
+		public override string ToString()
+			=> $"({Row}, {Column})";
+
 		public static Position operator +(Position left, Position right)
 			=> new Position(left.Row + right.Row, left.Column + right.Column);
 	}
