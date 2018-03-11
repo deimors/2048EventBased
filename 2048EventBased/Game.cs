@@ -31,8 +31,11 @@ namespace _2048EventBased
 		{
 			foreach (var position in AllPositions)
 			{
-				FindMoveTarget(position, direction).Match(
-					target => NumberMoved?.Invoke(new NumberMovedEvent(2, position, target)),
+				this[position].Match(
+					number => FindMoveTarget(position, direction).Match(
+						target => NumberMoved?.Invoke(new NumberMovedEvent(number, position, target)),
+						() => { }
+					),
 					() => { }
 				);
 			}
@@ -45,19 +48,21 @@ namespace _2048EventBased
 			{ Direction.Left, new Position(0, -1) },
 			{ Direction.Right, new Position(0, 1) }
 		};
-		
+
 		private Maybe<Position> FindMoveTarget(Position origin, Direction direction)
 			=> this[origin].SelectOrElse(
-				number =>
-				{
-					var increment = _increments[direction];
-
-					return origin.Project(increment)
-						.TakeWhile(IsInBounds)
-						.LastMaybe();
-				},
+				number => SelectMoveTarget(GetMoveCandidates(origin, direction)),
 				() => Maybe<Position>.Nothing
 			);
+
+		private IEnumerable<Position> GetMoveCandidates(Position origin, Direction direction)
+			=> origin.Project(_increments[direction]).TakeWhile(IsInBounds);
+
+		private Maybe<Position> SelectMoveTarget(IEnumerable<Position> moveCandidates)
+			=> moveCandidates
+				.Pairwise()
+				.FirstMaybe(pair => this[pair.Item2].HasValue)
+				.SelectOrElse(pair => pair.Item1.ToMaybe(), moveCandidates.LastMaybe);
 		
 		private bool IsInBounds(Position position)
 			=> position.Row >= 0 
