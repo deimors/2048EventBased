@@ -17,53 +17,95 @@ namespace _2048EventBased.Tests
 
 			A.CallTo(() => numberAddedListener.Invoke(new NumberAddedEvent(2, 0, 0))).MustHaveHappened();
 		}
+	}
 
-		[Fact]
-		public void When2At00_MoveRight_NumberMovedInvokedWith2MovedFrom00To03()
+	public class MovementTests
+	{
+		public class When2At00
 		{
-			var sut = new Game { [0, 0] = 2 };
-			var numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
-			sut.NumberMoved += numberMovedListener;
+			private readonly Game sut = new Game { [0, 0] = 2 };
+			private readonly Action<NumberMovedEvent> numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
 
-			sut.Move(Direction.Right);
+			public When2At00()
+			{
+				sut.NumberMoved += numberMovedListener;
+			}
 
-			A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 0, 3))).MustHaveHappened();
+			[Fact]
+			public void MoveRight_NumberMovedInvokedWith2MovedFrom00To03()
+			{
+				sut.Move(Direction.Right);
+
+				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 0, 3))).MustHaveHappened();
+			}
+
+			[Fact]
+			public void MoveDown_NumberMovedInvokedWith2MovedFrom00To30()
+			{
+				sut.Move(Direction.Down);
+
+				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 3, 0))).MustHaveHappened();
+			}
+
+			[Fact]
+			public void MoveLeft_NumberMovedNotInvoked()
+			{
+				sut.Move(Direction.Left);
+
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
+			}
+
+			[Fact]
+			public void MoveUp_NumberMovedNotInvoked()
+			{
+				sut.Move(Direction.Up);
+
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
+			}
 		}
 
-		[Fact]
-		public void When2At00_MoveDown_NumberMovedInvokedWith2MovedFrom00To30()
+
+		public class When2At33
 		{
-			var sut = new Game { [0, 0] = 2 };
-			var numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
-			sut.NumberMoved += numberMovedListener;
+			private readonly Game sut = new Game { [3, 3] = 2 };
+			private readonly Action<NumberMovedEvent> numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
 
-			sut.Move(Direction.Down);
+			public When2At33()
+			{
+				sut.NumberMoved += numberMovedListener;
+			}
 
-			A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 3, 0))).MustHaveHappened();
-		}
+			[Fact]
+			public void MoveUp_NumberMovedInvokedWith2MovedFrom00To03()
+			{
+				sut.Move(Direction.Up);
 
-		[Fact]
-		public void When2At00_MoveLeft_NumberMovedNotInvoked()
-		{
-			var sut = new Game { [0, 0] = 2 };
-			var numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
-			sut.NumberMoved += numberMovedListener;
+				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 0, 3))).MustHaveHappened();
+			}
 
-			sut.Move(Direction.Left);
+			[Fact]
+			public void MoveLeft_NumberMovedInvokedWith2MovedFrom00To30()
+			{
+				sut.Move(Direction.Left);
 
-			A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
-		}
+				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 3, 0))).MustHaveHappened();
+			}
 
-		[Fact]
-		public void When2At00_MoveUp_NumberMovedToInvokedWith2MovedFrom00To03()
-		{
-			var sut = new Game { [0, 0] = 2 };
-			var numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
-			sut.NumberMoved += numberMovedListener;
+			[Fact]
+			public void MoveDown_NumberMovedNotInvoked()
+			{
+				sut.Move(Direction.Down);
 
-			sut.Move(Direction.Up);
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
+			}
 
-			A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
+			[Fact]
+			public void MoveRight_NumberMovedNotInvoked()
+			{
+				sut.Move(Direction.Right);
+
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
+			}
 		}
 	}
 }

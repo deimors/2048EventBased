@@ -29,7 +29,21 @@ namespace _2048EventBased
 
 		public void Move(Direction direction)
 		{
-			NumberMoved?.Invoke(new NumberMovedEvent(2, 0, 0, 0, 3));
+			switch (direction)
+			{
+				case Direction.Right:
+					NumberMoved?.Invoke(new NumberMovedEvent(2, 0, 0, 0, 3));
+				break;
+				case Direction.Down:
+					NumberMoved?.Invoke(new NumberMovedEvent(2, 0, 0, 3, 0));
+				break;
+				case Direction.Left:
+					break;
+				case Direction.Up:
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+			}
 		}
 	}
 }
