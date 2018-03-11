@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2048EventBased", "2048EventBased\2048EventBased.csproj", "{49B82AD9-0E26-4D91-89D9-9B3C054145E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49B82AD9-0E26-4D91-89D9-9B3C054145E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B82AD9-0E26-4D91-89D9-9B3C054145E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B82AD9-0E26-4D91-89D9-9B3C054145E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B82AD9-0E26-4D91-89D9-9B3C054145E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F96E325-F7F2-4179-9499-5D3DD3512329}
+	EndGlobalSection
+EndGlobal
