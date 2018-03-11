@@ -76,19 +76,19 @@ namespace _2048EventBased.Tests
 			}
 
 			[Fact]
-			public void MoveUp_NumberMovedInvokedWith2MovedFrom00To03()
+			public void MoveUp_NumberMovedInvokedWith2MovedFrom33To03()
 			{
 				sut.Move(Direction.Up);
 
-				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 0, 3))).MustHaveHappened();
+				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 3, 3, 0, 3))).MustHaveHappened();
 			}
 
 			[Fact]
-			public void MoveLeft_NumberMovedInvokedWith2MovedFrom00To30()
+			public void MoveLeft_NumberMovedInvokedWith2MovedFrom33To30()
 			{
 				sut.Move(Direction.Left);
 
-				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 0, 0, 3, 0))).MustHaveHappened();
+				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(2, 3, 3, 3, 0))).MustHaveHappened();
 			}
 
 			[Fact]

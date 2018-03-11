@@ -2,47 +2,40 @@
 
 namespace _2048EventBased
 {
-	public class NumberMovedEvent : IEquatable<NumberMovedEvent>
+	public struct NumberMovedEvent : IEquatable<NumberMovedEvent>
 	{
+		
 		public int Number { get; }
-		public int OriginRow { get; }
-		public int OriginColumn { get; }
-		public int TargetRow { get; }
-		public int TargetColumn { get; }
 
-		public NumberMovedEvent(int number, int originRow, int originColumn, int targetRow, int targetColumn)
+		public Position Origin { get; }
+		public Position Target { get; }
+
+		public NumberMovedEvent(int number, Position origin, Position target)
 		{
 			Number = number;
-			OriginRow = originRow;
-			OriginColumn = originColumn;
-			TargetRow = targetRow;
-			TargetColumn = targetColumn;
+			Origin = origin;
+			Target = target;
 		}
 
-		public bool Equals(NumberMovedEvent other)
-		{
-			if (ReferenceEquals(null, other)) return false;
-			if (ReferenceEquals(this, other)) return true;
-			return Number == other.Number && OriginRow == other.OriginRow && OriginColumn == other.OriginColumn && TargetRow == other.TargetRow && TargetColumn == other.TargetColumn;
-		}
+		public NumberMovedEvent(int number, int originRow, int originColumn, int targetRow, int targetColumn)
+			: this(number, new Position(originRow, originColumn), new Position(targetRow, targetColumn))
+		{ }
 
-		public override bool Equals(object obj)
-		{
-			if (ReferenceEquals(null, obj)) return false;
-			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != this.GetType()) return false;
-			return Equals((NumberMovedEvent) obj);
-		}
+		public bool Equals(NumberMovedEvent other) 
+			=> Number == other.Number 
+			   && Origin.Equals(other.Origin) 
+			   && Target.Equals(other.Target);
+
+		public override bool Equals(object obj) 
+			=> obj is NumberMovedEvent @event && Equals(@event);
 
 		public override int GetHashCode()
 		{
 			unchecked
 			{
 				var hashCode = Number;
-				hashCode = (hashCode * 397) ^ OriginRow;
-				hashCode = (hashCode * 397) ^ OriginColumn;
-				hashCode = (hashCode * 397) ^ TargetRow;
-				hashCode = (hashCode * 397) ^ TargetColumn;
+				hashCode = (hashCode * 397) ^ Origin.GetHashCode();
+				hashCode = (hashCode * 397) ^ Target.GetHashCode();
 				return hashCode;
 			}
 		}
