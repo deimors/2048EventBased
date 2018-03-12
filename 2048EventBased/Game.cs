@@ -14,9 +14,7 @@ namespace _2048EventBased
 			get => _cells[position.Row, position.Column];
 			set => _cells[position.Row, position.Column] = value;
 		}
-
-		private IEnumerable<Position> AllPositions => Enumerable.Range(0, _cells.GetLength(0)).SelectMany(row => Enumerable.Range(0, _cells.GetLength(1)).Reverse().Select(column => new Position(row, column)));
-
+		
 		public event Action<NumberAddedEvent> NumberAdded;
 		public event Action<NumberMovedEvent> NumberMoved;
 
@@ -31,21 +29,24 @@ namespace _2048EventBased
 
 		public void Move(Direction direction)
 		{
-			foreach (var position in GetPositionsForDirection(direction))
+			foreach (var origin in GetPositionsForDirection(direction))
 			{
-				this[position].Match(
-					number => FindMoveTarget(position, direction).Match(
-						target =>
-						{
-							this[target] = number.ToMaybe();
-							this[position] = Maybe<int>.Nothing;
-							NumberMoved?.Invoke(new NumberMovedEvent(number, position, target));
-						},
+				this[origin].Match(
+					number => FindMoveTarget(origin, direction).Match(
+						target => MoveNumberTo(number, origin, target),
 						() => { }
 					),
 					() => { }
 				);
 			}
+		}
+
+		private void MoveNumberTo(int number, Position origin, Position target)
+		{
+			this[origin] = Maybe<int>.Nothing;
+			this[target] = number.ToMaybe();
+			
+			NumberMoved?.Invoke(new NumberMovedEvent(number, origin, target));
 		}
 
 		private IEnumerable<Position> GetPositionsForDirection(Direction direction) 
