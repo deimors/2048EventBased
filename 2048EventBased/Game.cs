@@ -17,6 +17,7 @@ namespace _2048EventBased
 		
 		public event Action<NumberAddedEvent> NumberAdded;
 		public event Action<NumberMovedEvent> NumberMoved;
+		public event Action<NumbersMergedEvent> NumbersMerged;
 
 		public int this[int row, int column]
 		{
@@ -75,7 +76,7 @@ namespace _2048EventBased
 			{ Direction.Left, new Position(0, -1) },
 			{ Direction.Right, new Position(0, 1) }
 		};
-
+		
 		private Maybe<Position> FindMoveTarget(Position origin, Direction direction)
 			=> this[origin].SelectOrElse(
 				number => SelectMoveTarget(GetMoveCandidates(origin, direction), number),

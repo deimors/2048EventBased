@@ -48,6 +48,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="NumberAddedEvent.cs" />
     <Compile Include="NumberMovedEvent.cs" />
+    <Compile Include="NumbersMergedEvent.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="PositionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
