@@ -2,7 +2,7 @@
 
 namespace _2048EventBased
 {
-	public struct NumbersMergedEvent : INumberEvent, IEquatable<NumbersMergedEvent>
+	public struct NumbersMergedEvent : IEquatable<NumbersMergedEvent>
 	{
 		public int NewNumber { get; }
 
@@ -46,15 +46,5 @@ namespace _2048EventBased
 
 		public override string ToString() 
 			=> $"Merge {Origin1} & {Origin2} -> {NewNumber} @ {Target}";
-
-		public static bool operator ==(NumbersMergedEvent left, NumbersMergedEvent right)
-		{
-			return left.Equals(right);
-		}
-
-		public static bool operator !=(NumbersMergedEvent left, NumbersMergedEvent right)
-		{
-			return !left.Equals(right);
-		}
 	}
 }

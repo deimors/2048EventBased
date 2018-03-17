@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace _2048EventBased
 {
 	internal static class EnumerableExtensions
 	{
-		public static IEnumerable<Tuple<T, T>> Pairwise<T>(this IEnumerable<T> source)
+		public static IEnumerable<IEnumerable<T>> GetRunsOfAtMost<T>(this IEnumerable<T> sequence, Func<T, T, bool> comparator, int maxLength)
 		{
-			using (var enumerator = source.GetEnumerator())
+			while (sequence.Any())
 			{
-				if (!enumerator.MoveNext())
-					yield break;
+				var first = sequence.First();
+				var run = sequence.Take(maxLength).TakeWhile(value => comparator(first, value));
 
-				var first = enumerator.Current;
-
-				while (enumerator.MoveNext())
-				{
-					var second = enumerator.Current;
-					yield return Tuple.Create(first, second);
-					first = second;
-				}
+				sequence = sequence.Skip(run.Count());
+				yield return run;
 			}
 		}
 	}
