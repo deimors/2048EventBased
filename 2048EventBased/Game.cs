@@ -49,10 +49,30 @@ namespace _2048EventBased
 
 				AddNewNumber();
 
-				if (_currentState.HasValue(2048))
-					GameWon?.Invoke();
+				EvaluateGameOver();
 			}
 		}
+
+		private void EvaluateGameOver()
+		{
+			if (IsGameWon)
+				GameWon?.Invoke();
+
+			if (IsGameOver)
+				GameLost?.Invoke();
+		}
+
+		private bool IsGameWon
+			=> _currentState.HasValue(2048);
+
+		private bool IsGameOver 
+			=> !_currentState.EmptyPositions.Any() 
+			   && _currentState.AllPositions.All(AllNeighborsAreDifferent);
+
+		private bool AllNeighborsAreDifferent(Position position) 
+			=> position.Neighbors()
+				.Where(neighbor => _currentState.IsOnBoard(neighbor))
+				.All(neighbor => !_currentState[position].Equals(_currentState[neighbor]));
 
 		private IEnumerable<BoardChange> GetChangesForDirection(Direction direction) 
 			=> GetChangesForSequences(GetSequencesForDirection(direction));

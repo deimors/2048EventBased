@@ -29,6 +29,9 @@ namespace _2048EventBased
 		public bool HasValue(int value)
 			=> _cells.ContainsValue(value);
 
+		public bool IsOnBoard(Position position)
+			=> position.Row >= 0 && position.Row < Size && position.Column >= 0 && position.Column < Size;
+
 		public Maybe<int> this[Position position]
 			=> _cells.ContainsKey(position)
 				? _cells[position].ToMaybe()
