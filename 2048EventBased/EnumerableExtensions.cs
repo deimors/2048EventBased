@@ -6,7 +6,7 @@ namespace _2048EventBased
 {
 	internal static class EnumerableExtensions
 	{
-		public static IEnumerable<IEnumerable<T>> GetRunsOfAtMost<T>(this IEnumerable<T> sequence, Func<T, T, bool> comparator, int maxLength)
+		public static IEnumerable<IEnumerable<T>> GetRunsOfMaxLength<T>(this IEnumerable<T> sequence, Func<T, T, bool> comparator, int maxLength)
 		{
 			while (sequence.Any())
 			{

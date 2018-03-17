@@ -1,21 +1,11 @@
-﻿using Functional.Maybe;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace _2048EventBased
 {
-	public interface IChooseNewNumber
-	{
-		Position ChoosePosition(IEnumerable<Position> emptyPositions);
-		int ChooseValue();
-	}
-
 	public class Game
 	{
-		private const int Width = 4;
-		private const int Height = 4;
-
 		private readonly IChooseNewNumber _numberChooser;
 
 		private Board _currentState;
@@ -41,7 +31,7 @@ namespace _2048EventBased
 		
 		public void Move(Direction direction)
 		{
-			var changes = GetChangesForDirection(direction).ToArray();
+			var changes = _currentState.GetChangesForDirection(direction).ToArray();
 			
 			if (changes.Any())
 			{
@@ -55,64 +45,12 @@ namespace _2048EventBased
 
 		private void EvaluateGameOver()
 		{
-			if (IsGameWon)
+			if (_currentState.IsGameWon())
 				GameWon?.Invoke();
 
-			if (IsGameOver)
+			if (_currentState.IsGameLost())
 				GameLost?.Invoke();
 		}
-
-		private bool IsGameWon
-			=> _currentState.HasValue(2048);
-
-		private bool IsGameOver 
-			=> !_currentState.EmptyPositions.Any() 
-			   && _currentState.AllPositions.All(AllNeighborsAreDifferent);
-
-		private bool AllNeighborsAreDifferent(Position position) 
-			=> position.Neighbors()
-				.Where(neighbor => _currentState.IsOnBoard(neighbor))
-				.All(neighbor => !_currentState[position].Equals(_currentState[neighbor]));
-
-		private IEnumerable<BoardChange> GetChangesForDirection(Direction direction) 
-			=> GetChangesForSequences(GetSequencesForDirection(direction));
-
-		private IEnumerable<BoardChange> GetChangesForSequences(IEnumerable<IEnumerable<Position>> sequences) 
-			=> sequences
-				.Select(sequence => sequence.ToArray())
-				.SelectMany(GetChangesForSequence);
-
-		private IEnumerable<BoardChange> GetChangesForSequence(Position[] sequence) 
-			=> GetChanges(sequence, GetRuns(CollapseSequence(sequence)));
-
-		private IEnumerable<Number> CollapseSequence(IEnumerable<Position> sequence) 
-			=> sequence
-				.Select(pos => _currentState[pos].Select(value => new Number(pos, value)))
-				.WhereValueExist();
-
-		private IEnumerable<IEnumerable<Position>> GetSequencesForDirection(Direction direction)
-		{
-			switch (direction)
-			{
-				case Direction.Right:
-					return Rows.Select(row => Columns.Reverse().Select(column => new Position(row, column)));
-					
-				case Direction.Down:
-					return Columns.Select(column => Rows.Reverse().Select(row => new Position(row, column)));
-
-				case Direction.Left:
-					return Rows.Select(row => Columns.Select(column => new Position(row, column)));
-
-				case Direction.Up:
-					return Columns.Select(column => Rows.Select(row => new Position(row, column)));
-
-				default:
-					throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
-			}
-		}
-
-		public static IEnumerable<IEnumerable<Number>> GetRuns(IEnumerable<Number> sequence)
-			=> sequence.ToArray().GetRunsOfAtMost((first, number) => number.Value == first.Value, 2);
 		
 		private void ApplyChanges(IEnumerable<BoardChange> changes)
 		{
@@ -168,18 +106,5 @@ namespace _2048EventBased
 			_currentState = _currentState.Merge(origin1, origin2, target);
 			NumbersMerged?.Invoke(new NumbersMergedEvent(number, origin1, origin2, target));
 		}
-
-		private static IEnumerable<BoardChange> GetChanges(IEnumerable<Position> sequence, IEnumerable<IEnumerable<Number>> runs) 
-			=> runs
-				.Select(run => run.ToArray())
-				.Zip(sequence, (run, position) => new BoardChange(run, position))
-				.Where(change => IsMovement(change));
-
-		private static bool IsMovement(BoardChange change)
-			=> !(change.Origins.Length == 1 && change.Origins[0].Position.Equals(change.Target));
-
-		private static IEnumerable<int> Columns => Enumerable.Range(0, Width);
-
-		private static IEnumerable<int> Rows => Enumerable.Range(0, Height);
 	}
 }

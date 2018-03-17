@@ -48,9 +48,12 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="BoardChange.cs" />
+    <Compile Include="ChangeEvaluation.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="GameOverEvaluation.cs" />
+    <Compile Include="IChooseNewNumber.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="NumberAddedEvent.cs" />
     <Compile Include="NumberMovedEvent.cs" />
