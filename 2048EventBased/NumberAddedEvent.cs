@@ -2,42 +2,35 @@
 
 namespace _2048EventBased
 {
-	public class NumberAddedEvent : IEquatable<NumberAddedEvent>
+	public struct NumberAddedEvent : IEquatable<NumberAddedEvent>
 	{
 		public int Number { get; }
-		public int Row { get; }
-		public int Column { get; }
+		public Position Position { get; }
 
-		public NumberAddedEvent(int number, int row, int column)
+		public NumberAddedEvent(int number, Position position)
 		{
 			Number = number;
-			Row = row;
-			Column = column;
+			Position = position;
 		}
 
-		public bool Equals(NumberAddedEvent other)
+		public NumberAddedEvent(int number, int row, int column) : this(number, new Position(row, column))
 		{
-			if (ReferenceEquals(null, other)) return false;
-			if (ReferenceEquals(this, other)) return true;
-			return Number == other.Number && Row == other.Row && Column == other.Column;
 		}
 
-		public override bool Equals(object obj)
-		{
-			if (ReferenceEquals(null, obj)) return false;
-			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != this.GetType()) return false;
-			return Equals((NumberAddedEvent) obj);
-		}
+		public bool Equals(NumberAddedEvent other) 
+			=> Number == other.Number 
+			   && Position.Equals(other.Position);
+
+		public override bool Equals(object obj) 
+			=> !(obj is null) 
+			   && obj is NumberAddedEvent @event 
+			   && Equals(@event);
 
 		public override int GetHashCode()
 		{
 			unchecked
 			{
-				var hashCode = Number;
-				hashCode = (hashCode * 397) ^ Row;
-				hashCode = (hashCode * 397) ^ Column;
-				return hashCode;
+				return (Number * 397) ^ Position.GetHashCode();
 			}
 		}
 	}

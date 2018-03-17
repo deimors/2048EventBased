@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FakeItEasy;
 using Xunit;
 
@@ -8,7 +9,7 @@ namespace _2048EventBased.Tests
 	{
 		public class When2At01AndAt02
 		{
-			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
+			private readonly Game sut = new Game(new FakeNumberChooser())
 			{
 				[0, 1] = 2,
 				[0, 2] = 2
@@ -44,7 +45,7 @@ namespace _2048EventBased.Tests
 
 		public class When2At10AndAt20
 		{
-			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
+			private readonly Game sut = new Game(new FakeNumberChooser())
 			{
 				[1, 0] = 2,
 				[2, 0] = 2
@@ -80,7 +81,7 @@ namespace _2048EventBased.Tests
 
 		public class When2At01And02And4At03
 		{
-			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
+			private readonly Game sut = new Game(new FakeNumberChooser())
 			{
 				[0, 1] = 2,
 				[0, 2] = 2,
@@ -117,7 +118,7 @@ namespace _2048EventBased.Tests
 
 		public class When2At00And01And4At02And03
 		{
-			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
+			private readonly Game sut = new Game(new FakeNumberChooser())
 			{
 				[0, 0] = 2,
 				[0, 1] = 2,
@@ -157,7 +158,7 @@ namespace _2048EventBased.Tests
 
 		public class When2InLineFrom00To03
 		{
-			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
+			private readonly Game sut = new Game(new FakeNumberChooser())
 			{
 				[0, 0] = 2,
 				[0, 1] = 2,
@@ -197,7 +198,7 @@ namespace _2048EventBased.Tests
 
 		public class When2InLineFrom00To30
 		{
-			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
+			private readonly Game sut = new Game(new FakeNumberChooser())
 			{
 				[0, 0] = 2,
 				[1, 0] = 2,

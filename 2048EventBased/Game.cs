@@ -16,13 +16,16 @@ namespace _2048EventBased
 		private const int Width = 4;
 		private const int Height = 4;
 
-		private readonly IChooseNewNumber numberChooser;
+		private readonly IChooseNewNumber _numberChooser;
 
-		private Board _currentState = Board.Empty;
+		private Board _currentState;
 
-		public Game(IChooseNewNumber numberChooser)
+		public Game(IChooseNewNumber numberChooser) : this(4, numberChooser) { }
+
+		public Game(int size, IChooseNewNumber numberChooser)
 		{
-			this.numberChooser = numberChooser;
+			_currentState = Board.Empty(size);
+			_numberChooser = numberChooser;
 		}
 
 		public event Action<NumberAddedEvent> NumberAdded;
@@ -31,24 +34,31 @@ namespace _2048EventBased
 
 		public int this[int row, int column]
 		{
-			set => AddNumber(row, column, value);
+			set => AddNumber(new Position(row, column), value);
 		}
 		
 		public void Move(Direction direction)
 		{
-			var sequences = GetSequencesForDirection(direction);
-
-			foreach (var sequence in sequences.Select(sequence => sequence.ToArray()))
+			var changes = GetChangesForDirection(direction).ToArray();
+			
+			if (changes.Any())
 			{
-				var collapsed = CollapseSequence(sequence);
-
-				var runs = GetRuns(collapsed);
-
-				var changes = GetChanges(sequence, runs);
-
 				ApplyChanges(changes);
+
+				AddNewNumber();
 			}
 		}
+
+		private IEnumerable<BoardChange> GetChangesForDirection(Direction direction) 
+			=> GetChangesForSequences(GetSequencesForDirection(direction));
+
+		private IEnumerable<BoardChange> GetChangesForSequences(IEnumerable<IEnumerable<Position>> sequences) 
+			=> sequences
+				.Select(sequence => sequence.ToArray())
+				.SelectMany(GetChangesForSequence);
+
+		private IEnumerable<BoardChange> GetChangesForSequence(Position[] sequence) 
+			=> GetChanges(sequence, GetRuns(CollapseSequence(sequence)));
 
 		private IEnumerable<Number> CollapseSequence(IEnumerable<Position> sequence) 
 			=> sequence
@@ -91,7 +101,7 @@ namespace _2048EventBased
 		{
 			switch (change.Origins.Length)
 			{
-				case 1 when !change.Origins[0].Position.Equals(change.Target):
+				case 1:
 					MoveNumber(
 						change.Origins[0].Position,
 						change.Target,
@@ -110,10 +120,16 @@ namespace _2048EventBased
 			}
 		}
 
-		private void AddNumber(int row, int column, int value)
+		private void AddNewNumber() 
+			=> AddNumber(
+				_numberChooser.ChoosePosition(_currentState.EmptyPositions), 
+				_numberChooser.ChooseValue()
+			);
+
+		private void AddNumber(Position position, int value)
 		{
-			_currentState = _currentState.Add(new Position(row, column), value);
-			NumberAdded?.Invoke(new NumberAddedEvent(value, row, column));
+			_currentState = _currentState.Add(position, value);
+			NumberAdded?.Invoke(new NumberAddedEvent(value, position));
 		}
 
 		private void MoveNumber(Position origin, Position target, int number)
@@ -131,7 +147,11 @@ namespace _2048EventBased
 		private static IEnumerable<BoardChange> GetChanges(IEnumerable<Position> sequence, IEnumerable<IEnumerable<Number>> runs) 
 			=> runs
 				.Select(run => run.ToArray())
-				.Zip(sequence, (run, position) => new BoardChange(run, position));
+				.Zip(sequence, (run, position) => new BoardChange(run, position))
+				.Where(change => IsMovement(change));
+
+		private static bool IsMovement(BoardChange change)
+			=> !(change.Origins.Length == 1 && change.Origins[0].Position.Equals(change.Target));
 
 		private static IEnumerable<int> Columns => Enumerable.Range(0, Width);
 

@@ -1,19 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using Functional.Maybe;
 
 namespace _2048EventBased
 {
 	internal class Board
 	{
-		public static readonly Board Empty = new Board(ImmutableDictionary<Position, int>.Empty);
-
 		private readonly ImmutableDictionary<Position, int> _cells;
-		
-		private Board(ImmutableDictionary<Position, int> cells)
+
+		public static Board Empty(int size) => new Board(size, ImmutableDictionary<Position, int>.Empty);
+
+		private Board(int size, ImmutableDictionary<Position, int> cells)
 		{
+			Size = size;
 			_cells = cells ?? throw new ArgumentNullException(nameof(cells));
 		}
+
+		public int Size { get; }
+
+		public IEnumerable<Position> AllPositions
+			=> Enumerable.Range(0, Size).SelectMany(row => Enumerable.Range(0, Size).Select(column => new Position(row, column)));
+
+		public IEnumerable<Position> EmptyPositions
+			=> AllPositions.Where(position => !_cells.ContainsKey(position));
 
 		public Maybe<int> this[Position position]
 			=> _cells.ContainsKey(position)
@@ -21,10 +32,11 @@ namespace _2048EventBased
 				: Maybe<int>.Nothing;
 
 		public Board Add(Position position, int number)
-			=> new Board(_cells.Add(position, number));
+			=> new Board(Size, _cells.Add(position, number));
 
 		public Board Move(Position origin, Position target) 
 			=> new Board(
+				Size,
 				_cells.Add(target, _cells[origin])
 					.Remove(origin)
 			);
@@ -34,6 +46,7 @@ namespace _2048EventBased
 
 		private Board Merge(Position origin1, Position origin2, Position target, int value)
 			=> new Board(
+				Size,
 				_cells
 					.Remove(origin1)
 					.Remove(origin2)
