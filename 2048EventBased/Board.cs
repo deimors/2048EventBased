@@ -30,10 +30,14 @@ namespace _2048EventBased
 			);
 
 		public Board Merge(Position origin1, Position origin2, Position target)
+			=> Merge(origin1, origin2, target, _cells[origin1] + _cells[origin2]);
+
+		private Board Merge(Position origin1, Position origin2, Position target, int value)
 			=> new Board(
-				_cells.Add(target, _cells[origin1] + _cells[origin2])
+				_cells
 					.Remove(origin1)
 					.Remove(origin2)
+					.Add(target, value)
 			);
 	}
 }
