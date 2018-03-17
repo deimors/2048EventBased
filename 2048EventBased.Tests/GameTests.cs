@@ -9,7 +9,7 @@ namespace _2048EventBased.Tests
 		[Fact]
 		public void WhenGameEmpty_Add2At00_NumberAddedInvokedWith2At00()
 		{
-			var sut = new Game(new FakeNumberChooser(new Position(0, 0), 2));
+			var sut = new Game(new FakeNumberChooser());
 
 			var numberAddedListener = A.Fake<Action<NumberAddedEvent>>();
 			sut.NumberAdded += numberAddedListener;

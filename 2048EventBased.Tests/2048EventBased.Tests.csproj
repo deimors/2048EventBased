@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="FakeNumberChooser.cs" />
     <Compile Include="GameTests.cs" />
+    <Compile Include="GameWonTests.cs" />
     <Compile Include="MergeNumberTests.cs" />
     <Compile Include="MovementTests.cs" />
     <Compile Include="NewNumberTests.cs" />
