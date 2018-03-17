@@ -2,7 +2,7 @@
 
 namespace _2048EventBased
 {
-	public struct NumberMovedEvent : IEquatable<NumberMovedEvent>
+	public struct NumberMovedEvent : INumberEvent, IEquatable<NumberMovedEvent>
 	{
 		
 		public int Number { get; }

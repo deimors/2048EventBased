@@ -15,10 +15,12 @@ namespace _2048EventBased.Tests
 			};
 
 			private readonly Action<NumbersMergedEvent> numbersMergedListener = A.Fake<Action<NumbersMergedEvent>>();
+			private readonly Action<NumberMovedEvent> numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
 
 			public When2At01AndAt02()
 			{
 				sut.NumbersMerged += numbersMergedListener;
+				sut.NumberMoved += numberMovedListener;
 			}
 
 			[Fact]
@@ -26,7 +28,8 @@ namespace _2048EventBased.Tests
 			{
 				sut.Move(Direction.Right);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 1, 0, 2, 0, 3))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 2, 0, 1, 0, 3))).MustHaveHappened();
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
@@ -35,6 +38,7 @@ namespace _2048EventBased.Tests
 				sut.Move(Direction.Left);
 
 				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 1, 0, 2, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 		}
 
@@ -47,10 +51,12 @@ namespace _2048EventBased.Tests
 			};
 
 			private readonly Action<NumbersMergedEvent> numbersMergedListener = A.Fake<Action<NumbersMergedEvent>>();
+			private readonly Action<NumberMovedEvent> numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
 
 			public When2At10AndAt20()
 			{
 				sut.NumbersMerged += numbersMergedListener;
+				sut.NumberMoved += numberMovedListener;
 			}
 
 			[Fact]
@@ -59,6 +65,7 @@ namespace _2048EventBased.Tests
 				sut.Move(Direction.Up);
 
 				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 1, 0, 2, 0, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
@@ -66,7 +73,8 @@ namespace _2048EventBased.Tests
 			{
 				sut.Move(Direction.Down);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 1, 0, 2, 0, 3, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 2, 0, 1, 0, 3, 0))).MustHaveHappened();
+				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 		}
 	}

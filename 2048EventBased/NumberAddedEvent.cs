@@ -2,7 +2,7 @@
 
 namespace _2048EventBased
 {
-	public class NumberAddedEvent : IEquatable<NumberAddedEvent>
+	public class NumberAddedEvent : INumberEvent, IEquatable<NumberAddedEvent>
 	{
 		public int Number { get; }
 		public int Row { get; }

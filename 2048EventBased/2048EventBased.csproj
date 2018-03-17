@@ -34,6 +34,9 @@
       <HintPath>..\packages\Functional.Maybe.1.1.1\lib\net45\Functional.Maybe.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.4.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +49,7 @@
     <Compile Include="Direction.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="INumberEvent.cs" />
     <Compile Include="NumberAddedEvent.cs" />
     <Compile Include="NumberMovedEvent.cs" />
     <Compile Include="NumbersMergedEvent.cs" />
