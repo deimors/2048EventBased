@@ -13,7 +13,7 @@ namespace _2048EventBased.Tests
 				[0, 0] = 1024,
 				[0, 1] = 1024
 			};
-			private readonly Action<GameWonEvent> gameWonListener = A.Fake<Action<GameWonEvent>>();
+			private readonly Action gameWonListener = A.Fake<Action>();
 
 			public When1024At00And01()
 			{
@@ -25,7 +25,7 @@ namespace _2048EventBased.Tests
 			{
 				sut.Move(Direction.Right);
 
-				A.CallTo(() => gameWonListener.Invoke(A<GameWonEvent>._)).MustHaveHappened();
+				A.CallTo(() => gameWonListener.Invoke()).MustHaveHappened();
 			}
 
 			[Fact]
@@ -33,7 +33,7 @@ namespace _2048EventBased.Tests
 			{
 				sut.Move(Direction.Down);
 
-				A.CallTo(() => gameWonListener.Invoke(A<GameWonEvent>._)).MustNotHaveHappened();
+				A.CallTo(() => gameWonListener.Invoke()).MustNotHaveHappened();
 			}
 
 			[Fact]
@@ -41,7 +41,7 @@ namespace _2048EventBased.Tests
 			{
 				sut.Move(Direction.Left);
 
-				A.CallTo(() => gameWonListener.Invoke(A<GameWonEvent>._)).MustHaveHappened();
+				A.CallTo(() => gameWonListener.Invoke()).MustHaveHappened();
 			}
 
 			[Fact]
@@ -49,7 +49,7 @@ namespace _2048EventBased.Tests
 			{
 				sut.Move(Direction.Up);
 
-				A.CallTo(() => gameWonListener.Invoke(A<GameWonEvent>._)).MustNotHaveHappened();
+				A.CallTo(() => gameWonListener.Invoke()).MustNotHaveHappened();
 			}
 		}
 	}

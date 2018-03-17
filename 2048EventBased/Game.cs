@@ -31,7 +31,7 @@ namespace _2048EventBased
 		public event Action<NumberAddedEvent> NumberAdded;
 		public event Action<NumberMovedEvent> NumberMoved;
 		public event Action<NumbersMergedEvent> NumbersMerged;
-		public event Action<GameWonEvent> GameWon;
+		public event Action GameWon;
 
 		public int this[int row, int column]
 		{
@@ -47,6 +47,9 @@ namespace _2048EventBased
 				ApplyChanges(changes);
 
 				AddNewNumber();
+
+				if (_currentState.HasValue(2048))
+					GameWon?.Invoke();
 			}
 		}
 

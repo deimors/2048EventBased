@@ -26,6 +26,9 @@ namespace _2048EventBased
 		public IEnumerable<Position> EmptyPositions
 			=> AllPositions.Where(position => !_cells.ContainsKey(position));
 
+		public bool HasValue(int value)
+			=> _cells.ContainsValue(value);
+
 		public Maybe<int> this[Position position]
 			=> _cells.ContainsKey(position)
 				? _cells[position].ToMaybe()

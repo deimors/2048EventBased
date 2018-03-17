@@ -51,7 +51,6 @@
     <Compile Include="Direction.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameWonEvent.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="NumberAddedEvent.cs" />
     <Compile Include="NumberMovedEvent.cs" />
