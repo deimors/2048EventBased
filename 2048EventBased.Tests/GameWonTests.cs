@@ -13,6 +13,7 @@ namespace _2048EventBased.Tests
 				[0, 0] = 1024,
 				[0, 1] = 1024
 			};
+
 			private readonly Action gameWonListener = A.Fake<Action>();
 
 			public When1024At00And01()

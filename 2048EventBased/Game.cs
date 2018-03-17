@@ -32,6 +32,7 @@ namespace _2048EventBased
 		public event Action<NumberMovedEvent> NumberMoved;
 		public event Action<NumbersMergedEvent> NumbersMerged;
 		public event Action GameWon;
+		public event Action GameLost;
 
 		public int this[int row, int column]
 		{
