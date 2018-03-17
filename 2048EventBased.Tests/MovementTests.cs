@@ -8,7 +8,7 @@ namespace _2048EventBased.Tests
 	{
 		public class When2At00
 		{
-			private readonly Game sut = new Game { [0, 0] = 2 };
+			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2)) { [0, 0] = 2 };
 			private readonly Action<NumberMovedEvent> numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
 
 			public When2At00()
@@ -51,7 +51,7 @@ namespace _2048EventBased.Tests
 		
 		public class When2At33
 		{
-			private readonly Game sut = new Game { [3, 3] = 2 };
+			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2)) { [3, 3] = 2 };
 			private readonly Action<NumberMovedEvent> numberMovedListener = A.Fake<Action<NumberMovedEvent>>();
 
 			public When2At33()
@@ -95,7 +95,7 @@ namespace _2048EventBased.Tests
 
 		public class When2At00And33And4At03And30
 		{
-			private readonly Game sut = new Game
+			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
 			{
 				[0, 0] = 2,
 				[3, 3] = 2,
@@ -149,7 +149,7 @@ namespace _2048EventBased.Tests
 
 		public class When2At01And4At02
 		{
-			private readonly Game sut = new Game
+			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
 			{
 				[0, 1] = 2,
 				[0, 2] = 4
@@ -183,7 +183,7 @@ namespace _2048EventBased.Tests
 
 		public class When2At10And4At20
 		{
-			private readonly Game sut = new Game
+			private readonly Game sut = new Game(new FakeNumberChooser(new Position(0, 0), 2))
 			{
 				[1, 0] = 2,
 				[2, 0] = 4

@@ -5,12 +5,25 @@ using System.Linq;
 
 namespace _2048EventBased
 {
+	public interface IChooseNewNumber
+	{
+		Position ChoosePosition(IEnumerable<Position> emptyPositions);
+		int ChooseValue();
+	}
+
 	public class Game
 	{
 		private const int Width = 4;
 		private const int Height = 4;
 
+		private readonly IChooseNewNumber numberChooser;
+
 		private Board _currentState = Board.Empty;
+
+		public Game(IChooseNewNumber numberChooser)
+		{
+			this.numberChooser = numberChooser;
+		}
 
 		public event Action<NumberAddedEvent> NumberAdded;
 		public event Action<NumberMovedEvent> NumberMoved;
