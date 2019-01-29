@@ -77,7 +77,7 @@ namespace _2048EventBased
 						change.Origins[0].Position,
 						change.Origins[1].Position,
 						change.Target,
-						_currentState[change.Origins[0].Position].Value
+						_currentState[change.Origins[0].Position].Value + _currentState[change.Origins[1].Position].Value
 					);
 					break;
 			}

@@ -25,20 +25,20 @@ namespace _2048EventBased.Tests
 			}
 
 			[Fact]
-			public void MoveRight_2At01And02MergedAt03()
+			public void MoveRight_01And02MergedTo4At03()
 			{
 				sut.Move(Direction.Right);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 2, 0, 1, 0, 3))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 2, 0, 1, 0, 3))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
-			public void MoveLeft_2At01And02MergedAt00()
+			public void MoveLeft_01And02MergedTo4At00()
 			{
 				sut.Move(Direction.Left);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 1, 0, 2, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 1, 0, 2, 0, 0))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 		}
@@ -61,20 +61,20 @@ namespace _2048EventBased.Tests
 			}
 
 			[Fact]
-			public void MoveUp_2At10And20MergedAt00()
+			public void MoveUp_10And20MergedTo4At00()
 			{
 				sut.Move(Direction.Up);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 1, 0, 2, 0, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 1, 0, 2, 0, 0, 0))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
-			public void MoveDown_2At10And20MergedAt30()
+			public void MoveDown_10And20MergedTo4At30()
 			{
 				sut.Move(Direction.Down);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 2, 0, 1, 0, 3, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 2, 0, 1, 0, 3, 0))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 		}
@@ -98,20 +98,20 @@ namespace _2048EventBased.Tests
 			}
 
 			[Fact]
-			public void MoveRight_2At01And02MergedAt03()
+			public void MoveRight_01And02MergedTo4At03()
 			{
 				sut.Move(Direction.Right);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 2, 0, 1, 0, 2))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 2, 0, 1, 0, 2))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
-			public void MoveLeft_2At01And02MergedAt00()
+			public void MoveLeft_01And02MergedTo4At00()
 			{
 				sut.Move(Direction.Left);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 1, 0, 2, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 1, 0, 2, 0, 0))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(new NumberMovedEvent(4, 0, 3, 0, 1))).MustHaveHappened();
 			}
 		}
@@ -136,22 +136,22 @@ namespace _2048EventBased.Tests
 			}
 
 			[Fact]
-			public void MoveRight_2At01And02MergedAt03()
+			public void MoveRight_01And02MergedTo4At03()
 			{
 				sut.Move(Direction.Right);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 1, 0, 0, 0, 2))).MustHaveHappened();
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 3, 0, 2, 0, 3))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 1, 0, 0, 0, 2))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(8, 0, 3, 0, 2, 0, 3))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
-			public void MoveLeft_2At01And00MergedAt00()
+			public void MoveLeft_01And00MergedTo4At00()
 			{
 				sut.Move(Direction.Left);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 0, 0, 1, 0, 0))).MustHaveHappened();
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 2, 0, 3, 0, 1))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 0, 0, 1, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(8, 0, 2, 0, 3, 0, 1))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 		}
@@ -176,22 +176,22 @@ namespace _2048EventBased.Tests
 			}
 
 			[Fact]
-			public void MoveRight_2At01And02MergedAt02_2At03And02MergedAt03()
+			public void MoveRight_01And02MergedTo4At02_03And02MergedTo4At03()
 			{
 				sut.Move(Direction.Right);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 1, 0, 0, 0, 2))).MustHaveHappened();
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 3, 0, 2, 0, 3))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 1, 0, 0, 0, 2))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 3, 0, 2, 0, 3))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
-			public void MoveLeft_2At01And00MergedAt00_2At02And03MergedAt01()
+			public void MoveLeft_01And00MergedTo4At00_02And03MergedTo4At01()
 			{
 				sut.Move(Direction.Left);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 0, 0, 1, 0, 0))).MustHaveHappened();
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 2, 0, 3, 0, 1))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 0, 0, 1, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 2, 0, 3, 0, 1))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 		}
@@ -216,22 +216,22 @@ namespace _2048EventBased.Tests
 			}
 
 			[Fact]
-			public void MoveDown_2At10And20MergedAt30_2At30And20MergedAt30()
+			public void MoveDown_10And20MergedTo4At30_30And20MergedTo4At30()
 			{
 				sut.Move(Direction.Down);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 1, 0, 0, 0, 2, 0))).MustHaveHappened();
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 3, 0, 2, 0, 3, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 1, 0, 0, 0, 2, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 3, 0, 2, 0, 3, 0))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 
 			[Fact]
-			public void MoveUp_2At10And20MergedAt00_2At20And30MergedAt10()
+			public void MoveUp_10And20MergedTo4At00_20And30MergedTo4At10()
 			{
 				sut.Move(Direction.Up);
 
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 0, 0, 1, 0, 0, 0))).MustHaveHappened();
-				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(2, 2, 0, 3, 0, 1, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 0, 0, 1, 0, 0, 0))).MustHaveHappened();
+				A.CallTo(() => numbersMergedListener.Invoke(new NumbersMergedEvent(4, 2, 0, 3, 0, 1, 0))).MustHaveHappened();
 				A.CallTo(() => numberMovedListener.Invoke(A<NumberMovedEvent>._)).MustNotHaveHappened();
 			}
 		}
